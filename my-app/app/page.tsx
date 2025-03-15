@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import axios from 'axios';
 
 
@@ -20,10 +20,11 @@ import {
 type Unit = "sec" | "min" | "hr"
 
 export default function Home() {
-  const [delay, setDelay] = useState<number>(0);
-  const [unit, setUnit] = useState<Unit>('sec');
-  const [msg, setMsg] = useState<string>("");
-  const [slackUrl, setSlackURL] = useState<string>("");
+  const [delay, setDelay] = useState<number>(0)
+  const [unit, setUnit] = useState<Unit | null>(null)
+  const [msg, setMsg] = useState<string>()
+  const [slackUrl, setSlackURL] = useState<string>()
+  const [sendEnabled, setSendEnabled] = useState<boolean>(false)
 
   const handleDelayChange = (e:ChangeEvent<HTMLInputElement>) => {
     setDelay(parseInt(e.target.value))
@@ -70,6 +71,14 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    if(msg && slackUrl && delay>0 && unit !== null && msg?.length >0 && slackUrl?.length >0) {
+      setSendEnabled(true)
+    } else {
+      setSendEnabled(false)
+    }
+  }, [delay, unit, msg, slackUrl])
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-[800px] p-6 bg-white shadow-lg rounded-l space-y-3">
@@ -99,7 +108,7 @@ export default function Home() {
           <Label className="min-w-[120px]" htmlFor="slackHook">Slack Hook URL</Label>
           <Input id="slackHook" type="text" placeholder="Enter Slack Hook URL" onChange={handleSlackURLChange}/>
         </div>
-        <Button className="w-full" variant="default" onClick={handleSendMessage}>Send in {delay} {unit}</Button>
+        <Button className="w-full" variant="default" disabled={!sendEnabled} onClick={handleSendMessage}>Send in {delay} {unit}</Button>
       </div>
     </div>
   );
