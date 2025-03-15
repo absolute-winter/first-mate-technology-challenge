@@ -61,7 +61,8 @@ export default function Home() {
           break;
       }
 
-      await axios.post(slackUrl, {
+      await axios.post("api/proxy", {
+        externalApi: slackUrl,
         text: `From Arden Dave Cabotaje's Slack Bot: ${msg}`
       });
     } catch (error) {
@@ -95,7 +96,7 @@ export default function Home() {
         <Label htmlFor="slackHook">Slack Hook URL</Label>
         <Input id="slackHook" type="text" placeholder="Enter Slack Hook URL" onChange={handleSlackURLChange}/>
       </div>
-      <Button variant="outline" onClick={handleSendMessage}>Send in</Button>
+      <Button variant="default" onClick={handleSendMessage}>Send in {delay} {unit}</Button>
     </div>
   );
 }
