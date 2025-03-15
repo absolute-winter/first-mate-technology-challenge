@@ -71,32 +71,36 @@ export default function Home() {
   }
 
   return (
-    <div className="items-center space-x-2 w-md">
-      <div className="flex items-center space-x-2">
-        <Label htmlFor="delay">Delay</Label>
-        <Input id="delay" type="number" placeholder="Amount of Delay" onChange={handleDelayChange}/>
-        <Select onValueChange={handleUnitChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select the unit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="sec">Seconds</SelectItem>
-              <SelectItem value="min">Minutes</SelectItem>
-              <SelectItem value="hr">Hours</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="w-[800px] p-6 bg-white shadow-lg rounded-l space-y-3">
+        <div className="flex items-center">
+          <Label className="min-w-[120px]" htmlFor="delay">Delay</Label>
+          <div className="flex items-center grow space-x-2">
+            <Input className="grow" id="delay" type="number" placeholder="Amount of Delay" onChange={handleDelayChange}/>
+            <Select onValueChange={handleUnitChange}>
+              <SelectTrigger className="w-[180px] flex-none">
+                <SelectValue placeholder="Select the unit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="sec">Seconds</SelectItem>
+                  <SelectItem value="min">Minutes</SelectItem>
+                  <SelectItem value="hr">Hours</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <Label className="min-w-[120px]" htmlFor="msg">Message</Label>
+          <Textarea id="msg" placeholder="Enter slack message" onChange={handleMessageChange}/>
+        </div>
+        <div className="flex items-center">
+          <Label className="min-w-[120px]" htmlFor="slackHook">Slack Hook URL</Label>
+          <Input id="slackHook" type="text" placeholder="Enter Slack Hook URL" onChange={handleSlackURLChange}/>
+        </div>
+        <Button className="w-full" variant="default" onClick={handleSendMessage}>Send in {delay} {unit}</Button>
       </div>
-      <div className="flex items-center space-x-2">
-        <Label htmlFor="msg">Message</Label>
-        <Textarea id="msg" placeholder="Enter slack message" onChange={handleMessageChange}/>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Label htmlFor="slackHook">Slack Hook URL</Label>
-        <Input id="slackHook" type="text" placeholder="Enter Slack Hook URL" onChange={handleSlackURLChange}/>
-      </div>
-      <Button variant="default" onClick={handleSendMessage}>Send in {delay} {unit}</Button>
     </div>
   );
 }
